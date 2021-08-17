@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { countPlusAction, countMinusAction } from '../reducers/test';
+import axios from 'axios'
+
 const Home = () => {
   const dispatch = useDispatch(); 
   const count = useSelector(state => state.count); 
