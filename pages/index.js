@@ -1,25 +1,12 @@
-import React, { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { countPlusAction, countMinusAction } from '../reducers/test';
-const Home = () => {
-  const dispatch = useDispatch(); 
-  const count = useSelector(state => state.count); 
-  
-  const onClickPlus = useCallback(() => { 
-    dispatch(countPlusAction());
-  }, []);
+import Head from 'next/head'
+import Image from 'next/image'
+import ProfileCard from '../partials/ProfileCard'
+import styles from '../styles/Home.module.css'
 
-  const onClickMinus = useCallback(() => {
-    dispatch(countMinusAction());
-  }, []);
-  
+export default function Home() {
   return (
-    <div>
-      카운트 :  {count}
-      <button onClick={onClickPlus}>+</button>
-      <button onClick={onClickMinus}>-</button>
-    </div>
+    <>
+      <ProfileCard/>
+    </>
   )
 }
-
-export default Home
