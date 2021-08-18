@@ -62,15 +62,6 @@ const reducer = (state=initialState, action) => {
                 error: action.error,
             }
         }
-        case LOAD_USER: {
-            return {
-                ...state,
-                user: null,
-                isLoggedIn: false,
-                isCreator: false,
-                isPartner: false,
-            }
-        }
         default:
             return state;
     }
