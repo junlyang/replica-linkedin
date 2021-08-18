@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import {logIn,signUp} from '../actions/userAction'
 import {useDispatch,useSelector} from 'react-redux'
-import Router from "next/router";
+import { useRouter } from 'next/router'
 
 const Login = () => {
     const {isLoggedIn} = useSelector((state) => state.user);
+    const router = useRouter()
     const dispatch = useDispatch();
+
     const onFinish = (values) => {
         console.log('Success:', values);
         logIn({userId: values.username,password:values.password}).then(function(result){
@@ -23,6 +25,7 @@ const Login = () => {
         return () => {
           console.log('isLoggedIn 가 바뀌기 전..');
           console.log(isLoggedIn);
+          router.push('/');
         };
       }, [isLoggedIn]);
     return (
