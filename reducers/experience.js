@@ -26,7 +26,7 @@ const reducer = (state=initialState, action) => {
         case GET_EXPERIENCE_SUCCESS: {
             return {
                 ...state,
-                experiences: action.payload,
+                experiences: action.user,
             }
         }
         case GET_EXPERIENCE_FAILURE: {

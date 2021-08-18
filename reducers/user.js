@@ -33,7 +33,7 @@ const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 isLoggedIn: true,
-                me: action.user,
+                me: action.data,
             }
         }
         case LOG_IN_FAILURE: {
