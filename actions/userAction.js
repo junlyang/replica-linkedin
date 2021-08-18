@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {LOG_IN_SUCCESS,LOG_IN_FAILURE} from '../reducers/user'
-// Request API.
-// Add your own code here to customize or restrict how the public can register new users.
+
 export const signUp = async (userId) => {
     console.log("signUp",userId)
     axios.post('http://localhost:1337/auth/local/register', {
