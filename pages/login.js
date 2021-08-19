@@ -5,7 +5,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import { useRouter } from 'next/router'
 
 const Login = () => {
-    const {isLoggedIn} = useSelector((state) => state.user);
+    let isLoggedIn = useSelector((state) => state.user && state.user.isLoggedIn)
     const router = useRouter()
     const dispatch = useDispatch();
 
@@ -19,15 +19,7 @@ const Login = () => {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-    useEffect(() => {
-        console.log('isLoggedIn 값이 설정됨');
-        console.log(isLoggedIn);
-        return () => {
-          console.log('isLoggedIn 가 바뀌기 전..');
-          console.log(isLoggedIn);
-          router.push('/');
-        };
-      }, [isLoggedIn]);
+    useEffect(() => isLoggedIn && router.push('/'), [isLoggedIn]);
     return (
         <Form
             name="basic"

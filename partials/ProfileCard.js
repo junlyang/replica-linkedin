@@ -2,23 +2,18 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Avatar } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { Image } from 'antd';
 
-
-const ProfileCard = () => {
-    const [profile, setProfile] = useState({
-        imgUrl: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-        name:'Junlyang'
-    });
+const { Meta } = Card;
+const ProfileCard = (profile) => {
+    console.log(profile)    
     return (
-        <>
-            <figure>
-                <img src={profile.imgUrl} width="200" height="200"></img>
-            </figure>
-            <div>
-                <h1>{profile.name}</h1>
-            </div>
-            <div><button>Edit</button></div>
-        </>
+        <Card
+            hoverable
+            style={{ width: 240 }}
+            cover={<Image alt="example" src={profile.profile.img} />}>
+            <Meta title={profile.profile.name} description="www.instagram.com" />
+        </Card>
     )
 }
 
