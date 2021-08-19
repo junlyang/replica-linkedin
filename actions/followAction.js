@@ -4,7 +4,7 @@ import {ADD_FOLLOWS_SUCCESS,ADD_FOLLOWS_FAILURE,GET_FOLLOWS_SUCCESS,GET_FOLLOWS_
 export const addFollow = async (data) => {
   console.log('addFollow', data)
   try {
-    const result = await axios.post('http://localhost:1337/friends', 
+    const result = await axios.post('http://localhost:1337/follows', 
     {from : data.from, to: data.to})
     console.log('Well done!');
     console.log('addFollow', result.data);
@@ -24,7 +24,7 @@ export const addFollow = async (data) => {
 export const getFollows = async (data) => {
   console.log('get Follows', data)
   try {
-    const result = await axios.get('http://localhost:1337/friends?_where[0][from.id]=611d08b3c3dc3c6778e0bebb')
+    const result = await axios.get('http://localhost:1337/follows?_where[0][from.id]=611d08b3c3dc3c6778e0bebb')
     console.log('Well done!');
     console.log('get Follows', result.data);
 

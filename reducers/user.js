@@ -2,6 +2,8 @@ export const initialState = {
     isLoggedIn: false,
     me : null,
     error : null,
+    user: null,
+    users: []
 }; 
 
 export const LOG_IN = 'LOG_IN' // 액션 이름
@@ -11,6 +13,12 @@ export const LOG_IN_FAILURE = 'LOG_IN_FAILURE' // 액션 이름
 export const LOG_OUT = 'LOG_OUT' // 액션 이름
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS' // 액션 이름
 export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE' // 액션 이름
+
+export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS' // 액션 이름
+export const GET_USERS_FAILURE = 'GET_USERS_FAILURE' // 액션 이름
+
+export const GET_USER_BY_ID_SUCCESS = 'GET_USER_BY_ID_SUCCESS' // 액션 이름
+export const GET_USER_BY_ID_FAILURE = 'GET_USER_BY_ID_FAILURE' // 액션 이름
 
 export const loginAction = data => ({ 
     type : LOG_IN,
@@ -60,6 +68,30 @@ const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 error: action.error,
+            }
+        }
+        case GET_USERS_SUCCESS : {
+            return {
+                ...state,
+                users: action.payload
+            }
+        }
+        case GET_USERS_FAILURE : {
+            return {
+                ...state,
+                error: action.error
+            }
+        }
+        case GET_USER_BY_ID_SUCCESS : {
+            return {
+                ...state,
+                user: action.payload
+            }
+        }
+        case GET_USER_BY_ID_FAILURE : {
+            return {
+                ...state,
+                error: action.error
             }
         }
         default:
