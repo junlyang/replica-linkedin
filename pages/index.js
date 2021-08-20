@@ -5,7 +5,7 @@ import axios from 'axios';
 import {getExperiences} from '../actions/experienceAction'
 import {getProfiles} from '../actions/profileAction'
 import {logIn,getUsers} from '../actions/userAction'
-import {addFollow, getFollows} from '../actions/followAction'
+import {addFollow, getFollows, getFollowsRequest} from '../actions/followAction'
 import {useDispatch,useSelector} from 'react-redux'
 import router from 'next/router'
 
@@ -18,10 +18,11 @@ export default function Home() {
   let follows = useSelector((state) => state.follow && state.follow.follows)
   const checkLogIn = () => logIn({userId: 'eomlyang@gmail.com',password:'co2h2oco'}).then(function(result){
     dispatch(result),
-    followers(result.user.id)
+    followers(result.user.id),
+    getFollowsRequest(result.user.id).then(dispatch)
   }) 
   let users = useSelector(state =>state.user && state.user.users)
-  const follow = (user) => {addFollow({from: me,to: user}).then((result)=>dispatch(result))}
+  const follow = (from,to) => {addFollow({from: from,to: to}).then((result)=>dispatch(result))}
   
   const [initLoading,setInitLoading] = useState(false)
   const loadMore =
@@ -57,7 +58,7 @@ export default function Home() {
             actions={[
               isLoggedIn && me.id !== item.id ? follows.filter((follow,i) =>follow.from.id == item.id || follow.to.id == item.id).length > 0 ?
               follows.filter((follow,i) =>follow.from.id == item.id || follow.to.id == item.id).map(obj=> obj.isAccepted ? <Button>친구끊기</Button> : obj.from.id == item.id ? <Button>거부</Button> : obj.to.id == item.id && <Button>신청취소</Button>)
-              : <Button key="list-loadmore-follow" onClick={()=>isLoggedIn ? follow(item) : router.push('/login')}>Follow</Button>
+              : <Button key="list-loadmore-follow" onClick={()=>isLoggedIn ? follow(me,item) : router.push('/login')}>Follow</Button>
               : isLoggedIn ? <>나다</> : <>아니다</>,
               <Button key="list-loadmore-more" type="link" onClick={()=>router.push('/detail/'+item.id)}>more</Button>]}
           >
