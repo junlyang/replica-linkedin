@@ -21,10 +21,10 @@ export const addFollow = async (data) => {
     }
   }
 }
-export const getFollows = async (data) => {
-  console.log('get Follows', data)
+export const getFollows = async (id) => {
+  console.log('get Follows', id)
   try {
-    const result = await axios.get('http://localhost:1337/follows?_where[0][from.id]=611d08b3c3dc3c6778e0bebb')
+    const result = await axios.get(`http://localhost:1337/follows?_where[_or][0][from]=${id}&_where[_or][1][to]=${id}`)
     console.log('Well done!');
     console.log('get Follows', result.data);
 
