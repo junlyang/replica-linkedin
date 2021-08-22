@@ -8,8 +8,7 @@ import io from 'socket.io-client';
 
 const LogIn = () => {
     let isLoggedIn = useSelector((state) => state.user && state.user.isLoggedIn)
-    //let na = useSelector((state) => state.user && state.user.me)
-    const [na,setNa] = useState(null)
+    const [me,setMe] = useState(null)
 
     const router = useRouter()
     const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const LogIn = () => {
         console.log('Success:', values);
         logIn({userId: values.username,password:values.password}).then((result)=>{
             dispatch(result),
-            setNa(result.user),
+            setMe(result.user),
             getFollows(result.user.id).then(dispatch),
             getFollowsRequest(result.user.id).then(dispatch),
             connectSocketServer(result.user)
@@ -31,18 +30,18 @@ const LogIn = () => {
     }
     useEffect(()=>{
         socket.on('followRequest',({uid})=>{
-          na && na.id == uid && getFollowsRequest(na.id).then(dispatch)
+          me && me.id == uid && getFollowsRequest(me.id).then(dispatch)
         }),
         socket.on('followAccept',({uid})=>{
-            na && na.id == uid && getFollows(na.id).then(dispatch)
+            me && me.id == uid && getFollows(me.id).then(dispatch)
           })
-    },[na])
+    },[me])
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
     useEffect(() => isLoggedIn && router.back(),[isLoggedIn]);
-    useEffect(()=>console.log('LOGIN PAGE ',na),[na])
+    useEffect(()=>console.log('LOGIN PAGE ',me),[me])
     return (
         <Form
             name="basic"

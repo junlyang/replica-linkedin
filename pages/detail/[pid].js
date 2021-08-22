@@ -50,19 +50,6 @@ const Detail = () => {
         return me && user && me.id == user.id ? 
             '나다' :
             [connectRequest(follows,me,user),connectRespopnse(follows,me,user),connect(follows,me,user)]
-        /*
-        let from = followers && me && followers.filter(follow => follow.from && follow.from.id == me.id)[0]
-        let fromPending = from ? from.isAccepted ? "친구" : "신청함" : "신청하기"
-        let to = followers && me && followers.filter(follow => follow.to.id == me.id)[0]
-        let toPending = to ? to.isAccepted ? "친구" : "수락하기" : "신청하기"
-        let result = fromPending == "친구" || toPending == "친구" ? <Button>친구</Button> : fromPending == "신청함" ? 
-            <Button>대기중</Button> : toPending == "수락하기" ? <Button type="link" >수락하기</Button> : <Button onClick={()=>followRequest(me,user)}>Connect</Button>
-        */
-        
-            /*const follow = follow && me && followers.filter(follow => follow.from.id == me.id || follow.to.id == me.id )[0]
-        const result = follow ? !follow.isAccepted ? "friend" : "대기중" : 
-        <Button onClick={()=> me ? followRequest(me,user) : router.push('/login')}>Connection</Button>*/
-        return result
     }
     var openDialog = function(uri, name, options, closeCallback) {
         win = window.open(uri, name, options);

@@ -14,16 +14,7 @@ export default function Home() {
   let isLoggedIn = useSelector((state) => state.user && state.user.isLoggedIn)
   let me = useSelector((state) => state.user && state.user.me)
   let follows = useSelector((state) => state.follow && state.follow.follows)
-  const checkLogIn = () => logIn({userId: 'eomlyang@gmail.com',password:'co2h2oco'}).then(function(result){
-    dispatch(result),
-    followers(result.user.id),
-    getFollowsRequest(result.user.id).then(dispatch)
-  }) 
-  const checkLogIn2 = () => logIn({userId: 'kimkim@naver.com',password:'co2h2oco'}).then(function(result){
-    dispatch(result),
-    followers(result.user.id),
-    getFollowsRequest(result.user.id).then(dispatch)
-  }) 
+  
   let users = useSelector(state =>state.user && state.user.users)
   const follow = (from,to) => {addFollow({from: from,to: to}).then((result)=>dispatch(result))}
  
@@ -42,12 +33,9 @@ export default function Home() {
             lineHeight: '32px',
           }}
         >
-          <Button >loading more</Button>
+          <Button onClick={getUsersAction}>loading more</Button>
         </div>
       ) : null;
-  const followButton = 
-    <Button>follow</Button>
-  
 
   return (
     <>
