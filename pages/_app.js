@@ -3,7 +3,6 @@ import Head from 'next/head'
 import '../styles/globals.css'
 import 'antd/dist/antd.css';
 import AppLayout from '../partials/AppLayout'
-import axios from "axios";
 
 function MyApp({ Component, pageProps }) {
   return (

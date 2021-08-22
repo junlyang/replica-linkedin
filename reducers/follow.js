@@ -18,6 +18,9 @@ export const GET_FOLLOWS_REQUEST_FAILURE = 'GET_FOLLOWS_REQUEST_FAILURE'
 export const ACCEPT_FOLLOWS_REQUEST_SUCCESS = 'ACCEPT_FOLLOWS_REQUEST_SUCCESS'
 export const ACCEPT_FOLLOWS_REQUEST_FAILURE = 'ACCEPT_FOLLOWS_REQUEST_FAILURE'
 
+export const REJECT_FOLLOWS_REQUEST_SUCCESS = 'REJECT_FOLLOWS_REQUEST_SUCCESS'
+export const REJECT_FOLLOWS_REQUEST_FAILURE = 'REJECT_FOLLOWS_REQUEST_FAILURE'
+
 
 const reducer = (state=initialState, action) => { 
     console.log("FOLLOWS REDUCER ", action)
@@ -67,6 +70,7 @@ const reducer = (state=initialState, action) => {
             return {
                 ... state,
                 followsRequest: [...state.followsRequest.filter(follow => follow.id !== action.data.id)],
+                follows : [ ...state.follows.map(follow=> follow.id == action.data.id ? {...follow,isAccepted:true} : follow) ]
             }
         }
         case ACCEPT_FOLLOWS_REQUEST_FAILURE : {
@@ -75,7 +79,20 @@ const reducer = (state=initialState, action) => {
                 error: action.error,
             }
         }
-        
+        case REJECT_FOLLOWS_REQUEST_SUCCESS : {
+            return {
+                ... state,
+                followsRequest: [...state.followsRequest.filter(follow => follow.id !== action.data.id)],
+                follows : [ ...state.follows.filter(follow => follow.id !== action.data.id) ]
+            }
+
+        }
+        case REJECT_FOLLOWS_REQUEST_FAILURE : {
+            return {
+                ...state,
+                error: action.error,
+            }
+        }
         default:
             return state;
     }

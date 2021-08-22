@@ -11,11 +11,11 @@ const cors = require('cors');
 
 dotenv.config();
 
-const app = next({ dev }); 
+const app = next({ dev }); // next 모듈을 사용
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  const server = express(); 
+  const server = express(); // back 서버에서의 const app = express()
   server.use(cors({
     origin: true,
     credentials: true

@@ -20,6 +20,9 @@ export const GET_USERS_FAILURE = 'GET_USERS_FAILURE' // 액션 이름
 export const GET_USER_BY_ID_SUCCESS = 'GET_USER_BY_ID_SUCCESS' // 액션 이름
 export const GET_USER_BY_ID_FAILURE = 'GET_USER_BY_ID_FAILURE' // 액션 이름
 
+export const PATCH_USERS_SUCCESS = 'PATCH_USERS_SUCCESS'
+export const PATCH_USERS_FAILURE = 'PATCH_USERS_FAILURE'
+
 export const loginAction = data => ({ 
     type : LOG_IN,
     data : data,
@@ -89,6 +92,19 @@ const reducer = (state=initialState, action) => {
             }
         }
         case GET_USER_BY_ID_FAILURE : {
+            return {
+                ...state,
+                error: action.error
+            }
+        }
+        case PATCH_USERS_SUCCESS : {
+            return {
+                ...state,
+                me: action.user,
+                user: action.user
+            }
+        }
+        case PATCH_USERS_FAILURE : {
             return {
                 ...state,
                 error: action.error

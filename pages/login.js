@@ -1,25 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
-import {logIn,signUp} from '../actions/userAction'
-import {useDispatch,useSelector} from 'react-redux'
+import { logIn, signUp } from '../actions/userAction'
+import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
+import { getFollows, getFollowsRequest } from '../actions/followAction'
+import io from 'socket.io-client';
 
-const Login = () => {
+const LogIn = () => {
     let isLoggedIn = useSelector((state) => state.user && state.user.isLoggedIn)
+    //let na = useSelector((state) => state.user && state.user.me)
+    const [na,setNa] = useState(null)
+
     const router = useRouter()
     const dispatch = useDispatch();
+    const socket = io.connect('http://localhost:4002', { transports: ['websocket'] })
 
     const onFinish = (values) => {
         console.log('Success:', values);
-        logIn({userId: values.username,password:values.password}).then(function(result){
-            dispatch(result)
-        }).then()
+        logIn({userId: values.username,password:values.password}).then((result)=>{
+            dispatch(result),
+            setNa(result.user),
+            getFollows(result.user.id).then(dispatch),
+            getFollowsRequest(result.user.id).then(dispatch),
+            connectSocketServer(result.user)
+        })
     };
+    const connectSocketServer = (user) => {
+        console.log('action socekt',socket)    
+        socket.emit('login',{ uid: user.id})
+    }
+    useEffect(()=>{
+        socket.on('followRequest',({uid})=>{
+          na && na.id == uid && getFollowsRequest(na.id).then(dispatch)
+        }),
+        socket.on('followAccept',({uid})=>{
+            na && na.id == uid && getFollows(na.id).then(dispatch)
+          })
+    },[na])
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-    useEffect(() => isLoggedIn && router.push('/'), [isLoggedIn]);
+    useEffect(() => isLoggedIn && router.back(),[isLoggedIn]);
+    useEffect(()=>console.log('LOGIN PAGE ',na),[na])
     return (
         <Form
             name="basic"
@@ -55,4 +78,4 @@ const Login = () => {
     );
 };
 
-export default Login
+export default LogIn

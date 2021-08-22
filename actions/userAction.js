@@ -1,13 +1,13 @@
 import axios from 'axios';
-import {LOG_IN_SUCCESS,LOG_IN_FAILURE,GET_USERS_SUCCESS,GET_USERS_FAILURE,GET_USER_BY_ID_SUCCESS,GET_USER_BY_ID_FAILURE} from '../reducers/user'
+import {
+  LOG_IN_SUCCESS,LOG_IN_FAILURE,GET_USERS_SUCCESS,GET_USERS_FAILURE,GET_USER_BY_ID_SUCCESS,GET_USER_BY_ID_FAILURE,
+  PATCH_USERS_SUCCESS,PATCH_USERS_FAILURE
+} from '../reducers/user'
+import io from "socket.io-client";
 
-export const signUp = async (userId) => {
-    console.log("signUp",userId)
-    axios.post('http://localhost:1337/auth/local/register', {
-    username: 'Strapi user',
-    email: 'user@strapi.io',
-    password: 'strapiPassword',
-  })
+export const signUp = async (data) => {
+    console.log("signUp",data)
+    axios.post('http://localhost:1337/auth/local/register', data)
   .then(response => {
     // Handle success.
     console.log('Well done!');
@@ -56,6 +56,24 @@ export const getUserById = async (id) => {
   } catch (e) {
       return  {
           type: GET_USER_BY_ID_FAILURE,
+          error: e 
+      }
+  }
+}
+export const patchOpen = async (data) => {
+  console.log("patchOpen", data)
+  try {
+      const result = await axios.put(`http://localhost:1337/users/${data.id}`,{
+        ...data,
+        opened: !data.opened
+      })
+      return  {
+          type: PATCH_USERS_SUCCESS,
+          user: result.data
+      }
+  } catch (e) {
+      return  {
+          type: PATCH_USERS_FAILURE,
           error: e 
       }
   }
