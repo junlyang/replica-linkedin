@@ -1,5 +1,5 @@
 - Linkedin replica 프로젝트
-## Getting Started
+## Goal
 1. Strapi 로 CMS 셋업
 2. 프로필 생성/에디팅 기능 구현
 3. Bulk import
