@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 const dev = process.env.NODE_ENV !== 'production';
 const prod = process.env.NODE_ENV === 'production';
 const cors = require('cors');
+const port = parseInt(process.env.PORT, 10) || 3000;
 
 dotenv.config();
 
@@ -36,19 +37,19 @@ app.prepare().then(() => {
     }),
   );
   
-  server.get('/hashtag/:tag', (req, res) => {
-    return app.render(req, res, '/hashtag', { tag: req.params.tag });
-  });
-
-  server.get('/user/:id', (req, res) => {
-    return app.render(req, res, '/user', { id: req.params.id });
-  });
-
-  server.get('*', (req, res) => { // 모든 get 요청 처리
-    return handle(req, res); // next의 get 요청 처리기
-  });
-
-  server.listen(3060, () => {
-    console.log('next+expresss running on port 3060');
-  });
+  const path = require('path');
+     
+  server.get("/sw.js", (req, res) => {
+		const filePath = path.join(__dirname, '.next', 'service-worker.js')
+		app.serveStatic(req, res, filePath);
+	});
+     
+  server.get('*', (req, res) => {
+		return handle(req, res);
+	});
+     
+  server.listen(port, (err) => {
+		if (err) throw err;
+		console.log(`> Ready on http://localhost:${port}`);
+	});
 });
